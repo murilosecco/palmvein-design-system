@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PalmVein — Apresentação Institucional</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIuNjQgMTkyLjY0Ij48Y2lyY2xlIGN4PSI5Ni4zMiIgY3k9Ijk2LjMyIiByPSI5Ni4zMiIgZmlsbD0iIzQ4ODhmNCIvPjxwYXRoIGZpbGw9IiM4NGVjYTYiIGQ9Ik0xNTcuOTUsNzUuNTFoLTE5Yy0uNzEsMC0xLjI4LjU3LTEuMywxLjI5LS42OCwzMy41MS0yOC4wNiw2MC40NS02MS43Myw2MC40NS02LjU2LDAtMTIuODctMS4wMi0xOC44LTIuOTItLjQ1LS4xNC0uOTEuMTktLjkxLjY2djIwLjQ3YzAsLjYuNDIsMS4xMywxLDEuMjcsNi4wMSwxLjM4LDEyLjI3LDIuMTEsMTguNzEsMi4xMSw0NS41OSwwLDgyLjYyLTM2LjYsODMuMzItODIuMDIuMDEtLjcyLS41OC0xLjMxLTEuMy0xLjMxWiIvPjxwYXRoIGZpbGw9IiNmZmZkZjkiIGQ9Ik01Ny40NiwxMTIuNjljNS44OSwyLjksMTIuNDcsNC41NCwxOS4yOSw0LjU0LDIzLjA0LDAsNDEuNzItMTguNjgsNDEuNzItNDEuNzJzLTE4LjY4LTQxLjcyLTQxLjcyLTQxLjcyLTQzLjM2LDE4LjY4LTQzLjM2LDQxLjcydjU3LjY2YzAsLjQ4LjM5Ljg3Ljg3Ljg3aDIxLjI3Yy4zOCwwLC42OS0uMzEuNjktLjY5di0xOS44N2MwLS42NC42Ny0xLjA2LDEuMjQtLjc4Wk03NS45Myw1NS44YzEwLjg5LDAsMTkuNzEsOC44MywxOS43MSwxOS43MXMtOC44MywxOS43MS0xOS43MSwxOS43MS0xOS43MS04LjgzLTE5LjcxLTE5LjcxLDguODMtMTkuNzEsMTkuNzEtMTkuNzFaIi8+PC9zdmc+Cg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  CONFIGURAÇÃO DA APRESENTAÇÃO
+  Edite as variáveis abaixo para personalizar por cliente
+  ============================================================ -->
+<script>
+const CONFIG = {
+  cliente: "",                    // Ex: "Santa Casa de Misericórdia"
+  setor: "geral",                 // "geral" | "saude" | "hotel" | "eventos" | "varejo" | "condominio"
+  mostrarFundador: true,          // mostrar slide do Rodrigo Carvalho
+  mostrarContato: true,           // mostrar slide de contato final
+  logoCliente: "",                // URL do logo do cliente (opcional)
+};
+</script>
+
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --c-vein:   #FFFDF8;
+  --c-haze:   #C7C7C7;
+  --c-flow:   #2B8AFC;
+  --c-origin: #112960;
+  --c-palm:   #56EF9F;
+  --c-dark:   #0a1628;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+
+/* ── DECK ───────────────────────────────────────────────── */
+.deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── SLIDE BASE ─────────────────────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── LAYOUT HELPERS ─────────────────────────────────────── */
+.slide-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5vh 7vw;
+}
+.slide-inner.pad-lg { padding: 6vh 9vw; }
+.slide-inner.center { align-items: center; text-align: center; }
+.slide-inner.top    { justify-content: flex-start; padding-top: 7vh; }
+
+.cols { display: grid; gap: 4vw; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ── BACKGROUNDS ────────────────────────────────────────── */
+.bg-navy   { background: linear-gradient(160deg, #0a1628 0%, var(--c-origin) 100%); }
+.bg-dark   { background: var(--c-dark); }
+.bg-white  { background: var(--c-vein); }
+.bg-flow   { background: linear-gradient(135deg, var(--c-origin) 0%, var(--c-flow) 100%); }
+.bg-img    { background-size: cover; background-position: center; position: relative; }
+.bg-img::after { content:''; position:absolute; inset:0; background: rgba(10,22,40,.65); }
+.bg-img .slide-inner { position: relative; z-index: 1; }
+
+/* ── TYPOGRAPHY ─────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: clamp(.6rem, 1vw, .8rem);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-palm);
+  margin-bottom: 1.5vh;
+}
+.eyebrow.blue { color: var(--c-flow); }
+.eyebrow.gray { color: var(--c-haze); }
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #fff;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+}
+.h2.dark { color: var(--c-origin); }
+.h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+.h3.dark { color: var(--c-origin); }
+.h4 {
+  font-family: var(--font-display);
+  font-size: clamp(.9rem, 1.5vw, 1.3rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: .8vh;
+}
+.h4.dark { color: var(--c-origin); }
+
+.body {
+  font-size: clamp(.75rem, 1.3vw, 1.05rem);
+  line-height: 1.65;
+  color: rgba(255,255,255,.72);
+}
+.body.dark { color: rgba(17,41,96,.7); }
+.body.sm   { font-size: clamp(.65rem, 1vw, .9rem); }
+
+.accent { color: var(--c-palm); }
+.accent-blue { color: var(--c-flow); }
+
+/* ── STAT CARD ──────────────────────────────────────────── */
+.stat-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 3vh 2.5vw;
+}
+.stat-card.light {
+  background: #fff;
+  border-color: rgba(17,41,96,.08);
+  box-shadow: 0 4px 20px rgba(17,41,96,.08);
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.8rem);
+  font-weight: 700;
+  color: var(--c-palm);
+  line-height: 1;
+  margin-bottom: .5vh;
+}
+.stat-number.blue { color: var(--c-flow); }
+.stat-number.dark { color: var(--c-origin); }
+.stat-label {
+  font-size: clamp(.6rem, 1vw, .85rem);
+  color: rgba(255,255,255,.55);
+  line-height: 1.4;
+}
+.stat-label.dark { color: rgba(17,41,96,.6); }
+
+/* ── STEP CARD ──────────────────────────────────────────── */
+.step-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  padding: 2.5vh 2vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+.step-num {
+  font-family: var(--font-display);
+  font-size: clamp(.6rem,.9vw,.75rem);
+  font-weight: 700;
+  color: var(--c-palm);
+  letter-spacing: .1em;
+}
+.step-title {
+  font-family: var(--font-display);
+  font-size: clamp(.75rem,1.2vw,1rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ── FEATURE ROW ────────────────────────────────────────── */
+.feat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5vw;
+  margin-bottom: 2vh;
+}
+.feat-icon {
+  width: clamp(28px,3vw,42px);
+  height: clamp(28px,3vw,42px);
+  border-radius: 10px;
+  background: rgba(43,138,252,.15);
+  border: 1px solid rgba(43,138,252,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.feat-icon svg { width: 55%; height: 55%; }
+
+/* ── TAG / BADGE ────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  font-family: var(--font-display);
+  font-size: clamp(.6rem,.9vw,.78rem);
+  font-weight: 600;
+  letter-spacing: .06em;
+  padding: .4em 1em;
+  border-radius: 999px;
+  border: 1px solid rgba(86,239,159,.3);
+  color: var(--c-palm);
+  margin-bottom: 2vh;
+}
+
+/* ── DIVIDER ────────────────────────────────────────────── */
+.divider {
+  width: 48px;
+  height: 3px;
+  background: var(--c-palm);
+  border-radius: 2px;
+  margin: 2vh 0;
+}
+.divider.blue { background: var(--c-flow); }
+
+/* ── LOGO ───────────────────────────────────────────────── */
+.logo-nav { height: clamp(22px,2.5vh,36px); display: block; }
+.logo-hero { height: clamp(40px,6vh,72px); display: block; margin-bottom: 3vh; }
+
+/* ── NAVIGATION ─────────────────────────────────────────── */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3vw;
+  background: rgba(10,22,40,.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,.06);
+  z-index: 100;
+}
+.nav-logo { display: flex; align-items: center; gap: 1vw; }
+.nav-counter {
+  font-family: var(--font-display);
+  font-size: .72rem;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .06em;
+}
+.nav-btns { display: flex; gap: .5vw; }
+.nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all .15s ease;
+}
+.nav-btn:hover { background: rgba(43,138,252,.2); border-color: rgba(43,138,252,.4); color: #fff; }
+.nav-btn:disabled { opacity: .25; cursor: default; }
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--c-palm);
+  transition: width .4s ease;
+  z-index: 101;
+}
+
+/* ── PRINT ──────────────────────────────────────────────── */
+@media print {
+  .nav-bar, .progress-bar { display: none !important; }
+  body { overflow: visible; background: #fff; }
+  .deck { height: auto; overflow: visible; }
+  .slide {
+    position: relative;
+    opacity: 1;
+    pointer-events: all;
+    width: 297mm;
+    height: 167mm;
+    page-break-after: always;
+    break-after: page;
+  }
+}
+
+/* ── SECTOR BADGE ───────────────────────────────────────── */
+.sector-badge {
+  display: none;
+  align-items: center;
+  gap: .5em;
+  font-family: var(--font-display);
+  font-size: .72rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- SVG LOGO INLINE -->
+<svg style="display:none">
+  <symbol id="logo-white" viewBox="0 0 701.57 146.53">
+    <path fill="#84eca6" d="M414.16,130.84c-1.16-.73-2.47-1.1-3.96-1.1-1.25,0-2.29.25-3.13.75-.84.5-1.51,1.12-2.02,1.86v-9.09h-4.29v22.89h3.82l.48-2.07c.34.47.76.88,1.26,1.26.5.37,1.07.66,1.72.87.65.21,1.38.32,2.21.32,1.48,0,2.8-.36,3.94-1.08,1.14-.72,2.05-1.72,2.72-2.99.67-1.27,1-2.7,1-4.29s-.33-3.08-1-4.34c-.67-1.26-1.58-2.26-2.73-2.99ZM412.96,140.57c-.36.69-.86,1.23-1.51,1.62-.65.39-1.39.59-2.24.59s-1.56-.19-2.21-.57c-.65-.38-1.16-.93-1.53-1.64-.37-.71-.56-1.52-.56-2.43s.18-1.72.56-2.42c.37-.7.88-1.24,1.53-1.64.65-.39,1.38-.59,2.21-.59s1.59.2,2.24.59c.65.39,1.15.94,1.51,1.65.36.71.54,1.52.54,2.43s-.18,1.71-.54,2.4Z"/>
+    <rect fill="#84eca6" x="424.85" y="130.12" width="4.29" height="16.02"/>
+    <path fill="#84eca6" d="M427.02,123.1c-.76,0-1.39.23-1.89.68-.5.46-.75,1.03-.75,1.73s.25,1.28.75,1.73c.5.46,1.13.68,1.89.68s1.43-.23,1.92-.68c.5-.45.75-1.03.75-1.73s-.25-1.28-.75-1.73c-.5-.46-1.14-.68-1.92-.68Z"/>
+    <path fill="#84eca6" d="M129.79,43.47h-19.79c-.74,0-1.34.6-1.35,1.34-.71,34.91-29.24,63-64.32,63-6.83,0-13.41-1.07-19.59-3.04-.47-.15-.95.2-.95.69v21.33c0,.63.43,1.18,1.05,1.32,6.27,1.44,12.79,2.2,19.49,2.2,47.51,0,86.09-38.14,86.82-85.47.01-.75-.6-1.37-1.36-1.37Z"/>
+    <path fill="#fffdf9" d="M25.08,82.21c6.13,3.03,12.99,4.73,20.1,4.73,24.01,0,43.47-19.46,43.47-43.47S69.19,0,45.18,0,0,19.46,0,43.47v60.08c0,.5.4.9.9.9h22.16c.4,0,.72-.32.72-.72v-20.71c0-.67.7-1.11,1.29-.81ZM44.33,22.93c11.35,0,20.54,9.2,20.54,20.54s-9.2,20.54-20.54,20.54-20.54-9.2-20.54-20.54,9.2-20.54,20.54-20.54Z"/>
+    <path fill="#fffdf9" d="M453.09,47.34c-4-2.41-9.05-3.62-15.01-3.62-4.79,0-9.29,1.06-13.37,3.14-3.84,1.96-7.03,4.68-9.51,8.08-1.31-2.33-2.96-4.3-4.9-5.88-2.14-1.73-4.61-3.06-7.33-3.97-2.73-.91-5.85-1.37-9.28-1.37-4.62,0-8.79.99-12.38,2.94-3.21,1.75-5.89,4.05-7.98,6.86l-.93-5.68c-.24-1.45-1.49-2.51-2.96-2.51h-12.34c-1.1,0-2,.9-2,2v64.59c0,1.1.9,2,2,2h15.1c1.1,0,2-.9,2-2v-34.44c0-3.67.6-6.85,1.77-9.45,1.16-2.58,2.81-4.58,4.91-5.96,2.1-1.37,4.51-2.06,7.17-2.06,4.28,0,7.49,1.38,9.52,4.09,2.07,2.76,3.12,6.81,3.12,12.04v35.78c0,1.1.9,2,2,2h15.1c1.1,0,2-.9,2-2v-34.44c0-3.67.6-6.85,1.77-9.45,1.16-2.58,2.84-4.58,4.98-5.95,2.14-1.37,4.63-2.07,7.37-2.07,4.19,0,7.33,1.38,9.32,4.09,2.03,2.76,3.06,6.81,3.06,12.04v35.78c0,1.1.9,2,2,2h14.97c1.1,0,2-.9,2-2v-37.39c0-6.57-1.03-12.19-3.06-16.7-2.04-4.54-5.11-8.07-9.12-10.48Z"/>
+    <path fill="#fffdf9" d="M516.81,47.38l-15.72,47.41-15.72-47.41c-.41-1.23-1.55-2.06-2.85-2.06h-15.09c-1.39,0-2.36,1.38-1.88,2.69l23.71,64.59c.29.79,1.04,1.31,1.88,1.31h19.9c.84,0,1.59-.52,1.88-1.31l23.58-64.59c.48-1.3-.49-2.69-1.88-2.69h-14.96c-1.29,0-2.44.83-2.85,2.06Z"/>
+    <path fill="#fffdf9" d="M586.39,48.21c-5.06-2.98-11.06-4.49-17.82-4.49s-13.14,1.58-18.43,4.7c-5.29,3.12-9.43,7.47-12.32,12.94-2.89,5.45-4.35,11.83-4.35,18.94s1.49,13.13,4.42,18.41c2.94,5.29,7.11,9.46,12.4,12.4,5.28,2.93,11.43,4.42,18.28,4.42,5.32,0,10.22-1.01,14.56-3,4.34-1.99,8.05-4.74,11.03-8.17,2.98-3.43,5.14-7.33,6.41-11.58l.19-.64h-19.49l-.14.28c-1.03,2.14-2.61,3.92-4.72,5.3-2.1,1.37-4.78,2.06-7.97,2.06s-6.05-.72-8.46-2.14c-2.41-1.42-4.31-3.47-5.64-6.1-1.04-2.04-1.68-4.38-1.92-6.98h49.71l.07-.42c.18-1.19.27-2.36.27-3.49v-3.02c0-6.4-1.42-12.21-4.22-17.27-2.8-5.06-6.79-9.14-11.85-12.12ZM554.46,67.65c1.42-2.76,3.4-4.83,5.89-6.16,2.51-1.34,5.27-2.02,8.21-2.02,4.05,0,7.48,1.22,10.19,3.63,2.59,2.3,4.07,5.48,4.42,9.45h-30.37c.36-1.84.91-3.48,1.65-4.9Z"/>
+    <rect fill="#fffdf9" x="609.01" y="45.32" width="19.11" height="68.59" rx="2" ry="2"/>
+    <path fill="#fffdf9" d="M618.72,16.02c-3.33,0-6.13,1.01-8.32,3.01-2.2,2.01-3.31,4.6-3.31,7.68s1.11,5.67,3.31,7.68c2.18,2,4.98,3.01,8.32,3.01s6.27-1.01,8.45-3.01c2.2-2.01,3.31-4.6,3.31-7.68s-1.11-5.66-3.31-7.68c-2.19-2-5.03-3.01-8.45-3.01Z"/>
+    <path fill="#fffdf9" d="M698.32,57.69c-2.04-4.54-5.07-8.05-8.98-10.42-3.91-2.36-8.78-3.56-14.47-3.56-5.34,0-10.01,1.2-13.87,3.56-3.41,2.09-6.17,4.78-8.2,8.02l-.89-7.33c-.18-1.51-1.46-2.64-2.98-2.64h-12.25c-1.1,0-2,.9-2,2v64.59c0,1.1.9,2,2,2h15.1c1.1,0,2-.9,2-2v-34.58c0-3.66.66-6.81,1.96-9.36,1.29-2.54,3.1-4.52,5.38-5.9,2.28-1.38,4.92-2.07,7.86-2.07,4.56,0,7.97,1.38,10.14,4.1,2.2,2.76,3.31,6.8,3.31,12.03v35.78c0,1.1.9,2,2,2h14.97c1.1,0,2-.9,2-2v-37.53c0-6.57-1.03-12.18-3.06-16.7Z"/>
+    <rect fill="#fffdf9" x="328.09" y="23.1" width="20.46" height="90.82" rx="2" ry="2"/>
+    <path fill="#fffdf9" d="M319.54,45.34h-11.94c-1.47,0-2.72,1.06-2.96,2.51l-.34,2.07c-5.59-3.92-12.34-6.23-19.62-6.23-19.27,0-34.9,16.08-34.9,35.92s15.63,35.9,34.9,35.9c6.65,0,12.86-1.92,18.15-5.24v1.65c0,1.1.9,2,2,2h14.71c1.1,0,2-.9,2-2V47.34c0-1.1-.9-2-2-2ZM284.9,96.42c-9.67,0-16.44-7.53-16.44-16.82s6.77-16.82,16.44-16.82,16.43,7.53,16.43,16.82-6.76,16.82-16.43,16.82Z"/>
+    <path fill="#fffdf9" d="M192.7,111.32c5.05,2.49,10.7,3.9,16.55,3.9,19.76,0,35.78-16.02,35.78-35.78s-16.02-35.78-35.78-35.78-37.19,16.02-37.19,35.78v49.45c0,.41.33.74.74.74h18.24c.33,0,.59-.27.59-.59v-17.05c0-.55.57-.91,1.07-.67ZM208.55,62.52c9.34,0,16.91,7.57,16.91,16.91s-7.57,16.91-16.91,16.91-16.91-7.57-16.91-16.91,7.57-16.91,16.91-16.91Z"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+<!-- ══════════════════════════════════════════
+     SLIDE 1 — CAPA
+══════════════════════════════════════════ -->
+<div class="slide bg-navy active" id="s1">
+  <div class="slide-inner center">
+    <svg class="logo-hero" viewBox="0 0 701.57 146.53"><use href="#logo-white"/></svg>
+    <div class="tag">Biometric Future</div>
+    <h1 class="h1" style="font-size:clamp(1.2rem,2.5vw,2rem);color:rgba(255,255,255,.45);font-weight:400;margin-top:2vh;">Apresentação Institucional</div>
+    <div class="divider" style="margin:3vh auto;"></div>
+    <p class="body" style="max-width:420px;text-align:center;">A primeira solução de biometria vascular de palma do Brasil.</p>
+  </div>
+  <div style="position:absolute;top:-10%;right:-5%;width:55vw;height:110%;background:radial-gradient(ellipse at 60% 50%, rgba(43,138,252,.18) 0%, transparent 65%);pointer-events:none;"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 2 — FUNDADOR
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s2" data-sector="fundador">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:6vw;">
+    <div>
+      <div class="eyebrow">Track record</div>
+      <h2 class="h2" style="font-size:clamp(1.6rem,3.5vw,3rem);">Em inovação e construção de negócios</h2>
+      <div class="divider"></div>
+      <p class="body" style="margin-bottom:2vh;">Formado pela Yale University em Software e Aplicações Tecnológicas, Rodrigo acumula mais de 25 anos de experiência em tecnologia e empreendedorismo.</p>
+      <p class="body">É fundador da Irroba, plataforma de e-commerce consolidada no mercado. Hoje lidera a PalmVein com a missão de transformar o acesso biométrico no Brasil.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;">
+      <div style="width:clamp(100px,14vw,180px);height:clamp(100px,14vw,180px);border-radius:50%;background:rgba(43,138,252,.15);border:2px solid rgba(43,138,252,.3);display:flex;align-items:center;justify-content:center;">
+        <svg width="45%" viewBox="0 0 256 256" fill="rgba(255,255,255,.4)"><path d="M230.92,212c-15.23-26.33-38.7-45.71-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.29,40.31,185.67,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/></svg>
+      </div>
+      <div class="h4" style="text-align:center;">Rodrigo Carvalho</div>
+      <div class="body sm" style="color:var(--c-palm);text-align:center;">Founder & CEO</div>
+      <div class="body sm" style="text-align:center;color:rgba(255,255,255,.4);">Yale University · Fundador Irroba</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 3 — HOOK: BIOMETRIA QUE LIBERTA
+══════════════════════════════════════════ -->
+<div class="slide bg-img" id="s3" style="background-image:url('assets/photography/scenes/brasil-palmvein.png');">
+  <div class="slide-inner center">
+    <div class="eyebrow" style="color:var(--c-palm);">Biometria que liberta</div>
+    <h1 class="h1" style="font-size:clamp(2rem,6vw,5.5rem);max-width:700px;">Entrou sem tirar os olhos da <span class="accent">COPA.</span></h1>
+    <p class="body" style="margin-top:2vh;font-size:clamp(.9rem,1.5vw,1.2rem);">Acesso autorizado em segundos. Sua palma é o seu ingresso. Para sempre.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 4 — PROPOSTA DE VALOR
+══════════════════════════════════════════ -->
+<div class="slide bg-flow" id="s4">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:5vw;">
+    <div>
+      <div class="eyebrow">Parceria estratégica</div>
+      <h2 class="h2" style="font-size:clamp(2rem,5vw,4.5rem);line-height:1.0;">Pague com a sua palma. <span class="accent">Para sempre.</span></h2>
+      <div class="divider"></div>
+      <p class="body" style="font-size:clamp(.85rem,1.4vw,1.1rem);">A primeira solução de biometria vascular de palma do Brasil — transformando qualquer ponto de contato em identidade, pagamento e acesso.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1.5vh;">
+      <div style="display:flex;align-items:center;gap:1.5vw;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:2vh 2vw;">
+        <span style="font-size:clamp(1.2rem,2.5vw,2.2rem);">🤚</span>
+        <span class="body" style="font-weight:600;">Sem cartão · Sem celular · Sem senha</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5vw;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:2vh 2vw;">
+        <span style="font-size:clamp(1.2rem,2.5vw,2.2rem);">🇧🇷</span>
+        <span class="body" style="font-weight:600;">100% nacional · Homologado Anatel</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5vw;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:2vh 2vw;">
+        <span style="font-size:clamp(1.2rem,2.5vw,2.2rem);">🔒</span>
+        <span class="body" style="font-weight:600;">FAR &lt; 0,001% · Impossível de copiar</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 5 — O PROBLEMA
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s5">
+  <div class="slide-inner top">
+    <div class="eyebrow">O contexto</div>
+    <h2 class="h2" style="margin-bottom:3vh;">O pagamento evoluiu. <br>A identidade, <span class="accent">ainda não.</span></h2>
+    <div class="cols cols-3" style="gap:2.5vw;margin-bottom:3vh;">
+      <div class="stat-card">
+        <div class="stat-number">50,7%</div>
+        <div class="stat-label">dos brasileiros foram vítimas de fraude em 2024 — cartão lidera com 47,9%<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(Serasa Experian, 2025)</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4 min</div>
+        <div class="stat-label">Tempo médio perdido em filas de checkout em grandes eventos e estabelecimentos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">R$10,1bi</div>
+        <div class="stat-label">Impacto anual em perdas por fraudes bancárias digitais e golpes por cartões no Brasil<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(Febraban, 2025)</span></div>
+      </div>
+    </div>
+    <p class="body sm" style="color:rgba(255,255,255,.4);max-width:700px;">Raiz do problema: os meios de pagamento dependem de objetos (cartão, celular) e segredos (senha, PIN) — que podem ser perdidos, roubados ou clonados.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 6 — VOCÊ É O SEU TOKEN
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s6">
+  <div class="slide-inner center">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;">
+      <div style="width:60vw;height:60vw;max-width:600px;max-height:600px;border-radius:50%;background:radial-gradient(ellipse, rgba(43,138,252,.12) 0%, transparent 70%);"></div>
+    </div>
+    <div style="position:relative;z-index:1;text-align:center;">
+      <div class="eyebrow" style="font-size:clamp(.7rem,1.2vw,.9rem);">A solução</div>
+      <h1 class="h1" style="font-size:clamp(2.5rem,7vw,7rem);letter-spacing:-.02em;">VOCÊ É O<br><span class="accent">SEU TOKEN</span></h1>
+      <div class="divider" style="margin:2.5vh auto;"></div>
+      <p class="body" style="max-width:540px;font-size:clamp(.85rem,1.4vw,1.1rem);">Biometria vascular infravermelha que lê o mapa único das veias da palma. Impossível de copiar. Impossível de perder.</p>
+      <div style="display:flex;gap:2vw;justify-content:center;margin-top:3vh;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:clamp(.6rem,.95vw,.8rem);font-weight:600;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:.4em 1.2em;border-radius:999px;">Sem cartão</span>
+        <span style="font-family:var(--font-display);font-size:clamp(.6rem,.95vw,.8rem);font-weight:600;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:.4em 1.2em;border-radius:999px;">Sem celular</span>
+        <span style="font-family:var(--font-display);font-size:clamp(.6rem,.95vw,.8rem);font-weight:600;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:.4em 1.2em;border-radius:999px;">Sem senha</span>
+        <span style="font-family:var(--font-display);font-size:clamp(.6rem,.95vw,.8rem);font-weight:600;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:.4em 1.2em;border-radius:999px;">Anatel homologado</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 7 — TECNOLOGIA: 4 PASSOS
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s7">
+  <div class="slide-inner top">
+    <div class="eyebrow">Tecnologia</div>
+    <h2 class="h2" style="margin-bottom:1vh;">Menos de 1 segundo. <span class="accent">Do cadastro ao pagamento.</span></h2>
+    <p class="body" style="margin-bottom:3vh;">Um fluxo linear, sem fricção, do registro único à transação aprovada.</p>
+    <div class="cols cols-4" style="gap:2vw;">
+      <div class="step-card">
+        <div class="step-num">01 · CADASTRO ÚNICO</div>
+        <div class="step-title">A palma é registrada uma única vez</div>
+        <p class="body sm">O mapa vascular é criptografado e vinculado a um token de pagamento.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02 · LEITURA IR</div>
+        <div class="step-title">Sensor infravermelho em tempo real</div>
+        <p class="body sm">Captura as veias instantaneamente. Nenhuma imagem armazenada — só o template biométrico.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03 · MATCH &lt;800ms</div>
+        <div class="step-title">Algoritmo compara o template</div>
+        <p class="body sm">Criptografado em menos de 800ms. Falsa aceitação: &lt;0,001%.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04 · TRANSAÇÃO</div>
+        <div class="step-title">Pagamento processado</div>
+        <p class="body sm">Via Pix, Mastercard ou Open Finance. Comprovante direto no celular.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 8 — HARDWARE
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s8">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:6vw;">
+    <div>
+      <div class="eyebrow">Hardware</div>
+      <h2 class="h2" style="margin-bottom:1vh;">Dispositivo de <span class="accent">acoplagem.</span></h2>
+      <div class="divider"></div>
+      <div class="feat-row">
+        <div class="feat-icon"><svg viewBox="0 0 256 256" fill="#2B8AFC"><path d="M229.66,218.34l-50.07-50.07a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.31ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></div>
+        <div><div class="h4" style="font-size:.9rem;">Acoplagem USB universal</div><p class="body sm">POS, tablet ou PC · Android 8+, Windows, Linux</p></div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-icon"><svg viewBox="0 0 256 256" fill="#2B8AFC"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-104H136V96a8,8,0,0,0-16,0v24H104a8,8,0,0,0,0,16h16v24a8,8,0,0,0,16,0V136h16a8,8,0,0,0,0-16Z"/></svg></div>
+        <div><div class="h4" style="font-size:.9rem;">SDK aberto + API REST</div><p class="body sm">Webhooks padronizados · integração com gateways e bandeiras</p></div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-icon"><svg viewBox="0 0 256 256" fill="#56EF9F"><path d="M208,40H48A16,16,0,0,0,32,56V200a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40ZM48,56H208V96H48ZM48,200V112H208v88Z"/></svg></div>
+        <div><div class="h4" style="font-size:.9rem;">Homologado Anatel · IP52</div><p class="body sm">Produção nacional · supply chain 100% brasileiro</p></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <img src="assets/photography/products/dispositivo.png" alt="Dispositivo PalmVein" style="max-height:55vh;max-width:100%;object-fit:contain;filter:drop-shadow(0 20px 60px rgba(43,138,252,.3));">
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 9 — VELOCIDADE (VISUAL)
+══════════════════════════════════════════ -->
+<div class="slide bg-img" id="s9" style="background-image:url('assets/photography/products/hands-blue.png');">
+  <div class="slide-inner center">
+    <div class="eyebrow">Biometria que liberta</div>
+    <h1 class="h1" style="font-size:clamp(2rem,6.5vw,6rem);">Menos de <span class="accent">um segundo.</span></h1>
+    <p class="body" style="margin-top:2vh;font-size:clamp(.9rem,1.5vw,1.2rem);">Leitura infravermelha instantânea. Mais rápido que qualquer cartão ou senha.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 10 — EXPERIÊNCIA (VISUAL)
+══════════════════════════════════════════ -->
+<div class="slide bg-img" id="s10" style="background-image:url('assets/photography/scenes/entrada-escritorio.png');">
+  <div class="slide-inner center">
+    <div class="eyebrow">Biometria que liberta</div>
+    <h1 class="h1" style="font-size:clamp(2rem,6vw,5.5rem);">Experiência <span class="accent">Fluida.</span></h1>
+    <p class="body" style="margin-top:2vh;max-width:500px;font-size:clamp(.9rem,1.5vw,1.1rem);">Sem senhas ou cartões, o acesso é rápido e seguro — do primeiro ao último gesto.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 11 — WAVEPASS 500
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s11">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:6vw;">
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <img src="assets/photography/products/wavepass.png" alt="WavePass 500" style="max-height:55vh;max-width:100%;object-fit:contain;filter:drop-shadow(0 20px 60px rgba(86,239,159,.2));">
+    </div>
+    <div>
+      <div class="eyebrow">POS Biométrico</div>
+      <h2 class="h2" style="margin-bottom:.5vh;">WavePass <span class="accent">500</span></h2>
+      <p class="body" style="margin-bottom:2.5vh;">Terminal all-in-one. Substitui o terminal convencional sem obras ou infraestrutura adicional.</p>
+      <div style="display:flex;flex-direction:column;gap:1.5vh;">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5vh 2vw;">
+          <div class="h4" style="font-size:.85rem;margin-bottom:.3vh;color:var(--c-palm);">Pix + Mastercard + Open Finance</div>
+          <p class="body sm">API configurável para qualquer bandeira ou instituição financeira parceira.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5vh 2vw;">
+          <div class="h4" style="font-size:.85rem;margin-bottom:.3vh;color:var(--c-flow);">E-ink + NFC + QR Code</div>
+          <p class="body sm">Retrocompatível com cartão físico e Pix QR. Transição suave para usuários não cadastrados.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5vh 2vw;">
+          <div class="h4" style="font-size:.85rem;margin-bottom:.3vh;">Dashboard em nuvem</div>
+          <p class="body sm">Transações, usuários cadastrados e relatórios em tempo real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 12 — CENÁRIOS DE APLICAÇÃO
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s12">
+  <div class="slide-inner top">
+    <div class="eyebrow">Cenários de aplicação</div>
+    <h2 class="h2" style="margin-bottom:3vh;">Onde a biometria <span class="accent">transforma</span> a experiência.</h2>
+    <div class="cols cols-3" style="gap:2vw;">
+      <div class="stat-card" style="border-color:rgba(43,138,252,.2);background:rgba(43,138,252,.07);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🏟️</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Eventos & Estádios</div>
+        <p class="body sm">Entrada e pagamento por palma. Zero fila. Zero atrito. Identificação instantânea.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(86,239,159,.2);background:rgba(86,239,159,.05);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🛒</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Varejo & Farmácias</div>
+        <p class="body sm">Checkout biométrico. Redução de chargeback e abandono de carrinho.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(255,255,255,.1);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🏨</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Hotelaria & Turismo</div>
+        <p class="body sm">Check-in, acesso ao quarto e consumos internos com a palma.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(255,255,255,.1);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🏥</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Saúde & Hospitais</div>
+        <p class="body sm">Identificação e cobrança biométrica. Redução de erros e fraudes de identidade.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(255,255,255,.1);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🎓</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Educação & Benefícios</div>
+        <p class="body sm">Cantinas, refeitórios e controle de acesso com biometria vascular.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(255,255,255,.1);">
+        <div style="font-size:clamp(1.2rem,2vw,1.8rem);margin-bottom:1vh;">🏛️</div>
+        <div class="h4" style="font-size:.9rem;margin-bottom:.5vh;">Governo & Serviços</div>
+        <p class="body sm">Identificação e pagamento de benefícios com segurança máxima.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 13 — DIFERENCIAIS COMPETITIVOS
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s13">
+  <div class="slide-inner top">
+    <div class="eyebrow">Diferenciais</div>
+    <h2 class="h2" style="margin-bottom:3vh;">Mais seguro que digital, facial <span class="accent">e NFC.</span></h2>
+    <div class="cols cols-2" style="gap:2.5vw;">
+      <div class="stat-card">
+        <div class="stat-number">FAR &lt;0,001%</div>
+        <div class="stat-label">Taxa de falsa aceitação 100× menor que reconhecimento facial</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">&lt;800ms</div>
+        <div class="stat-label">Mais rápido que chip, tap-to-pay ou QR Code. Sem contato físico</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number blue">Inalterável</div>
+        <div class="stat-label">As veias ficam abaixo da pele. Impossível fotografar, copiar ou falsificar. Não envelhece como digital</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number blue">Agnóstico</div>
+        <div class="stat-label">Integra com Pix, Mastercard Click2Pay e Open Finance. Compatível com qualquer bandeira ou gateway</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 14 — MERCADO
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s14">
+  <div class="slide-inner top">
+    <div class="eyebrow">Oportunidade de mercado</div>
+    <h2 class="h2" style="margin-bottom:3vh;">O mercado biométrico <span class="accent">está acontecendo agora.</span></h2>
+    <div class="cols cols-4" style="gap:2vw;margin-bottom:3vh;">
+      <div class="stat-card">
+        <div class="stat-number">US$46,6bi</div>
+        <div class="stat-label">Mercado global de pagamento biométrico em 2025<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(TBRC, 2025)</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">9,4%</div>
+        <div class="stat-label">CAGR até 2029 — mercado atinge US$66,7bi<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(R&M, 2025)</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1,4bi</div>
+        <div class="stat-label">Pessoas usando biometria para pagamentos globalmente<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(market.us)</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">84%</div>
+        <div class="stat-label">dos consumidores globais já usaram biometria em transações<br><span style="color:rgba(255,255,255,.3);font-size:.75em;">(market.us)</span></div>
+      </div>
+    </div>
+    <p class="body sm" style="color:rgba(255,255,255,.4);">Janela estratégica: o mercado cresceu de US$42,8bi em 2024 para US$46,6bi em 2025, com CAGR de 9,4%. A PalmVein está posicionada no centro desta expansão com IP nacional.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 15 — CONFORMIDADE
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s15">
+  <div class="slide-inner top">
+    <div class="eyebrow">Uma plataforma global desde a origem</div>
+    <h2 class="h2" style="margin-bottom:3vh;">Conformidade e <span class="accent">parcerias estratégicas.</span></h2>
+    <div class="cols cols-2" style="gap:2.5vw;">
+      <div class="stat-card" style="border-color:rgba(43,138,252,.25);background:rgba(43,138,252,.08);">
+        <div class="h4" style="color:var(--c-flow);margin-bottom:.8vh;">Mastercard Click2Pay</div>
+        <p class="body sm">Integração validada com o programa Mastercard Click2Pay — conformidade com padrões internacionais de pagamento biométrico e acesso à rede global.</p>
+      </div>
+      <div class="stat-card">
+        <div class="h4" style="color:var(--c-haze);margin-bottom:.8vh;">Anatel Homologado</div>
+        <p class="body sm">Dispositivos PalmVein com homologação Anatel — conformidade total com regulamentação brasileira de equipamentos e segurança de dados.</p>
+      </div>
+      <div class="stat-card" style="border-color:rgba(86,239,159,.2);background:rgba(86,239,159,.05);">
+        <div class="h4" style="color:var(--c-palm);margin-bottom:.8vh;">IP Própria · 100% Nacional</div>
+        <p class="body sm">Algoritmo, hardware e software desenvolvidos no Brasil. Supply chain nacional. Independência tecnológica total.</p>
+      </div>
+      <div class="stat-card">
+        <div class="h4" style="color:var(--c-haze);margin-bottom:.8vh;">LGPD + PCI DSS</div>
+        <p class="body sm">Arquitetura privacy-by-design: nenhuma imagem biométrica armazenada — apenas templates criptografados. Zero exposição de dados pessoais.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 16 — SEGURANÇA (VISUAL)
+══════════════════════════════════════════ -->
+<div class="slide bg-img" id="s16" style="background-image:url('assets/photography/scenes/entrada-predio.png');">
+  <div class="slide-inner center">
+    <div class="eyebrow">Segurança e proteção</div>
+    <h1 class="h1" style="font-size:clamp(2rem,6vw,5.5rem);">Segurança que é<br><span class="accent">impossível burlar.</span></h1>
+    <p class="body" style="margin-top:2vh;max-width:500px;font-size:clamp(.9rem,1.5vw,1.1rem);">A biometria vascular é o padrão de segurança mais avançado disponível. Impossível de clonar, falsificar ou contornar.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 17 — CONDOMÍNIO
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s17">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:5vw;">
+    <div>
+      <div class="eyebrow">Segurança e proteção</div>
+      <h2 class="h2" style="margin-bottom:1vh;">Condomínio <span class="accent">seguro.</span><br>Moradores protegidos.</h2>
+      <div class="divider"></div>
+      <p class="body" style="margin-bottom:2vh;">Controle de acesso biométrico, eliminando fraudes de entrada, aumentando segurança e oferecendo comodidade total aos moradores.</p>
+      <div style="display:flex;flex-direction:column;gap:1vh;">
+        <div style="display:flex;align-items:center;gap:1.2vw;"><div style="width:8px;height:8px;border-radius:50%;background:var(--c-palm);flex-shrink:0;"></div><p class="body sm">Acesso 100% sem chave ou cartão</p></div>
+        <div style="display:flex;align-items:center;gap:1.2vw;"><div style="width:8px;height:8px;border-radius:50%;background:var(--c-palm);flex-shrink:0;"></div><p class="body sm">Log de acesso em tempo real</p></div>
+        <div style="display:flex;align-items:center;gap:1.2vw;"><div style="width:8px;height:8px;border-radius:50%;background:var(--c-palm);flex-shrink:0;"></div><p class="body sm">Impossível emprestar ou clonar o acesso</p></div>
+        <div style="display:flex;align-items:center;gap:1.2vw;"><div style="width:8px;height:8px;border-radius:50%;background:var(--c-palm);flex-shrink:0;"></div><p class="body sm">Integração com portaria remota e CFTV</p></div>
+      </div>
+    </div>
+    <div>
+      <img src="assets/photography/scenes/condominio.png" alt="Condomínio" style="width:100%;border-radius:16px;object-fit:cover;max-height:50vh;">
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 18 — HOTELARIA
+══════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s18">
+  <div class="slide-inner cols cols-2" style="align-items:center;gap:5vw;">
+    <div>
+      <img src="assets/photography/scenes/hotel.png" alt="Hotel" style="width:100%;border-radius:16px;object-fit:cover;max-height:50vh;">
+    </div>
+    <div>
+      <div class="eyebrow">Acesso e identidade</div>
+      <h2 class="h2" style="margin-bottom:1vh;">Hospedagem sem chaves. <span class="accent">Segurança sem preocupações.</span></h2>
+      <div class="divider"></div>
+      <p class="body" style="margin-bottom:2vh;">Hotéis e resorts transformam a experiência com acesso biométrico. Sem cartões de quarto, sem perda de chaves, sem recepção 24h para reposição.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5vh;">
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:1.5vh 1.5vw;">
+          <div class="h4" style="font-size:.8rem;margin-bottom:.3vh;color:var(--c-palm);">Check-in</div>
+          <p class="body sm">Acesso biométrico integrado à porta do quarto</p>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:1.5vh 1.5vw;">
+          <div class="h4" style="font-size:.8rem;margin-bottom:.3vh;color:var(--c-palm);">Consumos</div>
+          <p class="body sm">Restaurante, spa e amenidades via palma</p>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:1.5vh 1.5vw;">
+          <div class="h4" style="font-size:.8rem;margin-bottom:.3vh;">Segurança</div>
+          <p class="body sm">Elimina acesso não autorizado ao quarto</p>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:1.5vh 1.5vw;">
+          <div class="h4" style="font-size:.8rem;margin-bottom:.3vh;">Operação</div>
+          <p class="body sm">Redução de custos com cartões plásticos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 19 — EVENTOS
+══════════════════════════════════════════ -->
+<div class="slide bg-img" id="s19" style="background-image:url('assets/photography/scenes/parque-tematico.png');">
+  <div class="slide-inner" style="justify-content:flex-end;padding-bottom:10vh;">
+    <div class="eyebrow">Acesso e identidade</div>
+    <h1 class="h1" style="font-size:clamp(2rem,5.5vw,5rem);">Entrou sem filas.<br>Curtiu sem <span class="accent">preocupações.</span></h1>
+    <div style="display:flex;gap:3vw;margin-top:3vh;flex-wrap:wrap;">
+      <div style="background:rgba(10,22,40,.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:2vh 2.5vw;min-width:180px;">
+        <div class="h4" style="color:var(--c-palm);font-size:.85rem;margin-bottom:.4vh;">Shows e Eventos</div>
+        <p class="body sm">Entrada rápida · Controle por zonas · Zero ingresso falso</p>
+      </div>
+      <div style="background:rgba(10,22,40,.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:2vh 2.5vw;min-width:180px;">
+        <div class="h4" style="color:var(--c-flow);font-size:.85rem;margin-bottom:.4vh;">Parques Temáticos</div>
+        <p class="body sm">Acesso a atrações · Áreas VIP · Sem pulseiras</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 20 — CONTATO
+══════════════════════════════════════════ -->
+<div class="slide bg-navy" id="s20" data-sector="contato">
+  <div class="slide-inner center">
+    <svg class="logo-hero" viewBox="0 0 701.57 146.53"><use href="#logo-white"/></svg>
+    <div class="divider" style="margin:3vh auto;"></div>
+    <h2 class="h2" style="font-size:clamp(1.2rem,3vw,2.5rem);margin-bottom:1vh;">Vamos conversar?</h2>
+    <p class="body" style="margin-bottom:3vh;max-width:420px;text-align:center;">Pronto para transformar a experiência dos seus clientes com biometria vascular.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.5vh;">
+      <div style="font-family:var(--font-display);font-size:clamp(.9rem,1.8vw,1.4rem);font-weight:600;color:#fff;">Rodrigo Carvalho — Founder & CEO</div>
+      <a href="tel:+5516997890243" style="font-family:var(--font-display);font-size:clamp(.85rem,1.5vw,1.2rem);color:var(--c-palm);text-decoration:none;">+55 16 99789-0243</a>
+      <a href="https://instagram.com/rodrigoirroba" style="font-family:var(--font-body);font-size:clamp(.8rem,1.3vw,1rem);color:rgba(255,255,255,.45);text-decoration:none;">@rodrigoirroba</a>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c-palm),var(--c-flow),transparent);"></div>
+  </div>
+  <div style="position:absolute;top:-10%;right:-5%;width:55vw;height:110%;background:radial-gradient(ellipse at 60% 50%, rgba(43,138,252,.12) 0%, transparent 65%);pointer-events:none;"></div>
+</div>
+
+</div><!-- end .deck -->
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <div class="nav-logo">
+    <svg height="20" viewBox="0 0 192.64 192.64"><circle cx="96.32" cy="96.32" r="96.32" fill="#4888f4"/><path fill="#84eca6" d="M157.95,75.51h-19c-.71,0-1.28.57-1.3,1.29-.68,33.51-28.06,60.45-61.73,60.45-6.56,0-12.87-1.02-18.8-2.92-.45-.14-.91.19-.91.66v20.47c0,.6.42,1.13,1,1.27,6.01,1.38,12.27,2.11,18.71,2.11,45.59,0,82.62-36.6,83.32-82.02.01-.72-.58-1.31-1.3-1.31Z"/><path fill="#fffdf9" d="M57.46,112.69c5.89,2.9,12.47,4.54,19.29,4.54,23.04,0,41.72-18.68,41.72-41.72s-18.68-41.72-41.72-41.72-43.36,18.68-43.36,41.72v57.66c0,.48.39.87.87.87h21.27c.38,0,.69-.31.69-.69v-19.87c0-.64.67-1.06,1.24-.78ZM75.93,55.8c10.89,0,19.71,8.83,19.71,19.71s-8.83,19.71-19.71,19.71-19.71-8.83-19.71-19.71,8.83-19.71,19.71-19.71Z"/></svg>
+    <span style="font-family:var(--font-display);font-size:.72rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.06em;">PALMVEIN</span>
+  </div>
+  <div class="nav-counter" id="counter">1 / 20</div>
+  <div class="nav-btns">
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" title="Anterior (←)">‹</button>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)" title="Próximo (→)">›</button>
+  </div>
+</div>
+
+<script>
+// ── SLIDE ENGINE ─────────────────────────────────────────
+const slides = Array.from(document.querySelectorAll('.slide'));
+let current = 0;
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(n, slides.length - 1));
+  slides[current].classList.add('active');
+  document.getElementById('counter').textContent = `${current + 1} / ${slides.length}`;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === slides.length - 1;
+  document.getElementById('progressBar').style.width = `${((current + 1) / slides.length) * 100}%`;
+}
+
+function navigate(dir) { goTo(current + dir); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); navigate(-1); }
+  if (e.key === 'Home') goTo(0);
+  if (e.key === 'End')  goTo(slides.length - 1);
+});
+
+// Touch/swipe
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+}, { passive: true });
+
+// Init
+goTo(0);
+</script>
+</body>
+</html>
